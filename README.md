@@ -29,6 +29,16 @@ It's most useful in agents with no web search of their own, which is most local-
 
 See [`SKILL.md`](SKILL.md) for what the agent reads.
 
+## Status and bugs
+
+This is new, and so far it's been tested on one machine: macOS with Chrome. It drives a real browser and reads a live search page, so it can break when Chrome, macOS or Brave change. If something doesn't work, [open an issue](https://github.com/alexwkleung/web-search-skill/issues) and include:
+
+- your OS and Chrome (or Chromium) version, and your Node version
+- the command you ran, its output and its exit code
+- which agent ran it, if it wasn't you
+
+Reports from Linux, and from agents running local models, are especially useful.
+
 ## Support
 
 If this is useful to you, you can [buy me a coffee on Ko-fi](https://ko-fi.com/U6U21EB7NZ). It came out of [Reika](https://github.com/alexwkleung/reika), a coding agent designed for small local models.
