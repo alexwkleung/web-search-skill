@@ -1,0 +1,15 @@
+{
+  "name": "web-search-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Web search and page reading for coding agents, through a real Chrome over CDP",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "defuddle": "^0.19.4",
+    "linkedom": "^0.18.13"
+  }
+}
