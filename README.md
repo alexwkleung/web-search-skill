@@ -39,6 +39,8 @@ This is new, and so far it's been tested on one machine: macOS with Chrome. It d
 
 Reports from Linux, and from agents running local models, are especially useful.
 
+It's maintained on a best-effort basis, so replies and fixes may take a while.
+
 ## Support
 
 If this is useful to you, you can [buy me a coffee on Ko-fi](https://ko-fi.com/U6U21EB7NZ). It came out of [Reika](https://github.com/alexwkleung/reika), a coding agent designed for small local models.
