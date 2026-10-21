@@ -9,7 +9,7 @@ node web.mjs read https://vitest.dev/guide/mocking
 
 Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle).
 
-macOS first. On Linux it works, but the Chrome window is visible.
+macOS first. Linux should work, but it's untested, and the Chrome window is visible there. Windows isn't supported yet.
 
 ## Install
 

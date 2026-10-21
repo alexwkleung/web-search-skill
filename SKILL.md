@@ -5,15 +5,17 @@ description: Search the web (Brave) and read pages through a real Chrome browser
 
 # Web search
 
-Run the script in this skill's directory:
+The script is `web.mjs`, in the same folder as this file. Your shell is in the user's project, so run it by its full path:
 
 ```bash
-node web.mjs search "<query>"           # 8 results: title, URL, snippet
-node web.mjs search "<query>" --max 4
-node web.mjs read <url>                 # the page as markdown, up to 40k chars
-node web.mjs read <url> --max-chars 80000
-node web.mjs stop                       # close the browser
+node <skill-dir>/web.mjs search "<query>"           # 8 results: title, URL, snippet
+node <skill-dir>/web.mjs search "<query>" --max 4
+node <skill-dir>/web.mjs read <url>                 # the page as markdown, up to 40k chars
+node <skill-dir>/web.mjs read <url> --max-chars 80000
+node <skill-dir>/web.mjs stop                       # close the browser
 ```
+
+A search can take up to 90 seconds when a bot check appears, so allow at least that long for the command.
 
 Search the web first, then `read` the one or two results that answer the question. Don't read every result.
 

@@ -28,7 +28,8 @@ const DATE_LINE =
 // A real results page carries dozens of links even when nothing matched. One with almost none is
 // an interstitial, whatever its wording says.
 const MIN_SERP_ANCHORS = 10;
-const CHALLENGE_WAIT_MS = 120_000;
+// Under Claude Code's default 2-minute shell timeout, so the agent sees exit 2 rather than a kill.
+const CHALLENGE_WAIT_MS = 90_000;
 const LAUNCH_TIMEOUT_MS = 20_000;
 const READY_TIMEOUT_MS = 15_000;
 const CALL_TIMEOUT_MS = 20_000;
