@@ -21,4 +21,4 @@ See [`SKILL.md`](SKILL.md) for what the agent reads.
 
 If this is useful to you, you can [buy me a coffee on Ko-fi](https://ko-fi.com/U6U21EB7NZ). It came out of [Reika](https://github.com/alexwkleung/reika), a coding agent designed for small local models.
 
-[![Support me on Ko-fi](https://img.shields.io/badge/Support%20me%20on%20Ko--fi-72a4f2?logo=ko-fi&logoColor=white)](https://ko-fi.com/U6U21EB7NZ)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U6U21EB7NZ)
