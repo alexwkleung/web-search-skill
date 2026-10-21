@@ -1,6 +1,6 @@
 ---
 name: web-search
-description: Search the web and read pages through a real Chrome browser. Use when the task needs something the codebase cannot answer, such as library docs, an API's shape, an error message, or a release note.
+description: Search the web (Brave) and read pages through a real Chrome browser, with no API key. Use when no other web search tool is available, when a page fetch was blocked (403, bot check, empty page), or when the user asks to search with the browser.
 ---
 
 # Web search
