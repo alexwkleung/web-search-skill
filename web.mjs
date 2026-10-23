@@ -8,7 +8,7 @@
 // Exit codes: 0 ok, 1 error, 2 the search engine served a bot check that was not solved in time,
 // 3 no Chrome or Chromium found.
 import { execFile, spawn } from 'node:child_process';
-import { accessSync, constants, mkdirSync } from 'node:fs';
+import { accessSync, constants, mkdirSync, readFileSync } from 'node:fs';
 import { homedir, platform } from 'node:os';
 import { join } from 'node:path';
 
@@ -406,31 +406,42 @@ function formatResults(query, results) {
 // Read
 // ---------------------------------------------------------------------------
 
+// defuddle's browser bundle, vendored so `read` has no dependencies to install. It runs in the
+// page itself, so any host that speaks CDP can use it.
+const DEFUDDLE = new URL('./vendor/defuddle.js', import.meta.url);
+
+// The bundle is UMD. Local `module`/`exports` make it export to us instead of defining a global or
+// calling a page's AMD `define`.
+function defuddleScript(bundle) {
+  return `(async () => {
+  const module = { exports: {} }, exports = module.exports, define = undefined;
+${bundle}
+;
+  const Defuddle = module.exports;
+  const out = await new Defuddle(document, { url: location.href, markdown: true }).parseAsync();
+  return JSON.stringify({ title: out.title, content: out.content });
+})()`;
+}
+
 // The page is loaded in the same browser, so sites that refuse a bare HTTP client still answer,
-// and defuddle turns the rendered DOM into markdown.
+// and defuddle turns the rendered DOM into markdown where it stands.
 async function read(url, maxChars) {
-  let defuddle, linkedom;
+  let bundle;
   try {
-    [defuddle, linkedom] = await Promise.all([import('defuddle/node'), import('linkedom')]);
+    bundle = readFileSync(DEFUDDLE, 'utf8');
   } catch {
-    throw new Exit('`read` needs its dependencies: run `npm install` in the skill directory', 1);
+    throw new Exit('`read` is missing vendor/defuddle.js from the skill directory', 1);
   }
   const tab = await newTab();
-  let html;
+  let raw;
   try {
     await tab.navigate(url);
-    html = await tab.evaluate('document.documentElement.outerHTML');
+    raw = await tab.evaluate(defuddleScript(bundle));
   } finally {
     await tab.close();
   }
-  if (typeof html !== 'string') throw new Error('the page returned nothing to read');
-  const doc = linkedom.parseHTML(html).document;
-  // DOM APIs defuddle reads that linkedom lacks.
-  if (!doc.styleSheets) Object.assign(doc, { styleSheets: [] });
-  if (doc.defaultView && !doc.defaultView.getComputedStyle)
-    Object.assign(doc.defaultView, { getComputedStyle: () => ({ display: '' }) });
-  Object.assign(doc, { URL: url });
-  const out = await defuddle.Defuddle(doc, url, { markdown: true });
+  if (typeof raw !== 'string') throw new Error('the page returned nothing to read');
+  const out = JSON.parse(raw);
   let body = (out.content ?? '').trim();
   const total = body.length;
   if (total > maxChars) body = `${body.slice(0, maxChars)}\n\n…(cut at ${maxChars} of ${total} chars; pass --max-chars to read more)`;
@@ -469,10 +480,14 @@ async function main() {
   }
 }
 
+// Writes to a pipe are async on macOS, and process.exit() drops whatever the pipe hasn't taken yet,
+// which cut long `read` output at 64KB. An empty write calls back once everything before it is out.
+const exit = code => process.stdout.write('', () => process.exit(code));
+
 main().then(
-  () => process.exit(0),
+  () => exit(0),
   e => {
     console.error(e.message);
-    process.exit(e instanceof Exit ? e.code : 1);
+    exit(e instanceof Exit ? e.code : 1);
   },
 );

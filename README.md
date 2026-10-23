@@ -7,7 +7,7 @@ node web.mjs search "vitest fake timers"
 node web.mjs read https://vitest.dev/guide/mocking
 ```
 
-Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle).
+Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle), which runs inside the page. Its browser bundle is vendored in `vendor/` (MIT, see `vendor/defuddle.LICENSE`). To update it, copy `dist/index.full.js` from a newer `defuddle` package over `vendor/defuddle.js`.
 
 macOS first. Linux should work, but it's untested, and the Chrome window is visible there. Windows isn't supported yet.
 
@@ -23,7 +23,7 @@ git clone https://github.com/alexwkleung/web-search-skill ~/.agents/skills/web-s
 git clone https://github.com/alexwkleung/web-search-skill ~/.claude/skills/web-search
 ```
 
-Then run `npm install` in it once, which `read` needs. `search` has no dependencies. Requires Node 22 or newer.
+There's nothing to install beyond that. It needs Node 22 or newer and no npm packages.
 
 It's most useful in agents with no web search of their own, which is most local-model setups. Where the agent has a built-in search tool (Claude Code does), the agent will usually use that instead, and this skill is still there for pages that block plain fetching, or when you ask for it.
 
