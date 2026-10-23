@@ -25,6 +25,8 @@ git clone https://github.com/alexwkleung/web-search-skill ~/.claude/skills/web-s
 
 There's nothing to install beyond that. It needs Node 22 or newer and no npm packages.
 
+Without Node, there's an experimental Python version, `python/web.py`. It needs Python 3.9 or newer and nothing from pip, and takes the same commands (`python3 python/web.py search "..."`). The agent is told to use it when `node` isn't installed. Both versions share the code that runs inside the page (`shared/extract.js` and `vendor/defuddle.js`) and the same Chrome profile.
+
 It's most useful in agents with no web search of their own, which is most local-model setups. Where the agent has a built-in search tool (Claude Code does), the agent will usually use that instead, and this skill is still there for pages that block plain fetching, or when you ask for it.
 
 See [`SKILL.md`](SKILL.md) for what the agent reads.
@@ -33,7 +35,7 @@ See [`SKILL.md`](SKILL.md) for what the agent reads.
 
 This is new, and so far it's been tested on one machine: macOS with Chrome. It drives a real browser and reads a live search page, so it can break when Chrome, macOS or Brave change. If something doesn't work, [open an issue](https://github.com/alexwkleung/web-search-skill/issues) and include:
 
-- your OS and Chrome (or Chromium) version, and your Node version
+- your OS and Chrome (or Chromium) version, and your Node version (or Python version, if you used `python/web.py`)
 - the command you ran, its output and its exit code
 - which agent ran it, if it wasn't you
 

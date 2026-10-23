@@ -15,6 +15,8 @@ node <skill-dir>/web.mjs read <url> --max-chars 80000
 node <skill-dir>/web.mjs stop                       # close the browser
 ```
 
+If `node` isn't installed, run `python3 <skill-dir>/python/web.py` with the same arguments instead. It prints the same output and uses the same exit codes.
+
 A search can take up to 90 seconds when a bot check appears, so allow at least that long for the command.
 
 Search the web first, then `read` the one or two results that answer the question. Don't read every result.
