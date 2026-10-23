@@ -30,6 +30,6 @@ Search the web first, then `read` the one or two results that answer the questio
 
 The script launches its own Chrome on a separate profile (`~/.config/web-search/chrome`), minimized and in the background. It reuses that browser on later calls, so only the first search waits for a launch. Chrome uses about 375MB while running. Run `stop` to close it, or quit it from the Dock. The profile stays on disk.
 
-Searches go to Brave. `read` loads the page in the same browser and converts it to markdown with [defuddle](https://github.com/kepano/defuddle). `search` needs no dependencies. `read` needs `npm install` in this directory once.
+Searches go to Brave. `read` loads the page in the same browser and converts it to markdown with [defuddle](https://github.com/kepano/defuddle), which runs inside the page. Nothing needs installing.
 
 Settings, all optional: `WEB_SEARCH_CHROME` (path to the browser binary), `WEB_SEARCH_PROFILE` (profile directory), `WEB_SEARCH_PORT` (debugging port, default 9333).
