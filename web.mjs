@@ -480,10 +480,14 @@ async function main() {
   }
 }
 
+// Writes to a pipe are async on macOS, and process.exit() drops whatever the pipe hasn't taken yet,
+// which cut long `read` output at 64KB. An empty write calls back once everything before it is out.
+const exit = code => process.stdout.write('', () => process.exit(code));
+
 main().then(
-  () => process.exit(0),
+  () => exit(0),
   e => {
     console.error(e.message);
-    process.exit(e instanceof Exit ? e.code : 1);
+    exit(e instanceof Exit ? e.code : 1);
   },
 );
