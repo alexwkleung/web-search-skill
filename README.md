@@ -3,8 +3,8 @@
 A web search and page-reading skill for coding agents. It drives a real Chrome over the DevTools protocol instead of a search API: there are no keys, and nothing to self-host.
 
 ```bash
-node web.mjs search "vitest fake timers"
-node web.mjs read https://vitest.dev/guide/mocking
+./web search "vitest fake timers"
+./web read https://vitest.dev/guide/mocking
 ```
 
 Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle), which runs inside the page. Its browser bundle is vendored in `vendor/` (MIT, see `vendor/defuddle.LICENSE`). To update it, copy `dist/index.full.js` from a newer `defuddle` package over `vendor/defuddle.js`.
@@ -23,9 +23,9 @@ git clone https://github.com/alexwkleung/web-search-skill ~/.agents/skills/web-s
 git clone https://github.com/alexwkleung/web-search-skill ~/.claude/skills/web-search
 ```
 
-There's nothing to install beyond that. It needs Node 22 or newer and no npm packages.
+There's nothing to install beyond that. It needs either Node 22 or newer, or Python 3.9 or newer, and no packages for either.
 
-Without Node, there's an experimental Python version, `python/web.py`. It needs Python 3.9 or newer and nothing from pip, and takes the same commands (`python3 python/web.py search "..."`). The agent is told to use it when `node` isn't installed. Both versions share the code that runs inside the page (`shared/extract.js` and `vendor/defuddle.js`) and the same Chrome profile.
+The agent runs `web`, a small launcher that uses `web.mjs` on Node and falls back to `python/web.py` (experimental) when Node 22+ isn't there. To always use one, set `WEB_SEARCH_RUNTIME=node` or `WEB_SEARCH_RUNTIME=python` in the environment your agent runs in. Both versions give the same output, and share the code that runs inside the page (`shared/extract.js` and `vendor/defuddle.js`) and the same Chrome profile.
 
 It's most useful in agents with no web search of their own, which is most local-model setups. Where the agent has a built-in search tool (Claude Code does), the agent will usually use that instead, and this skill is still there for pages that block plain fetching, or when you ask for it.
 
