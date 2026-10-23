@@ -23,9 +23,29 @@ git clone https://github.com/alexwkleung/web-search-skill ~/.agents/skills/web-s
 git clone https://github.com/alexwkleung/web-search-skill ~/.claude/skills/web-search
 ```
 
-There's nothing to install beyond that. It needs either Node 22 or newer, or Python 3.9 or newer, and no packages for either.
+There's nothing to install beyond that, and no packages.
 
-The agent runs `web.sh`, a small launcher that uses `web.mjs` on Node and falls back to `python/web.py` (experimental) when Node 22+ isn't there. To always use one, set `WEB_SEARCH_RUNTIME=node` or `WEB_SEARCH_RUNTIME=python` in the environment your agent runs in. Both versions give the same output, and share the code that runs inside the page (`shared/extract.js` and `vendor/defuddle.js`) and the same Chrome profile.
+### Requirements
+
+- Chrome or Chromium
+- Node 22 or newer, **or** Python 3.9 or newer (the Python version is experimental)
+
+### Node or Python
+
+The agent runs `web.sh`, which picks one for it:
+
+- Node 22 or newer installed: `web.mjs`
+- otherwise: `python/web.py`
+
+To always use one, set `WEB_SEARCH_RUNTIME` in the environment your agent runs in:
+
+```bash
+export WEB_SEARCH_RUNTIME=python   # or node
+```
+
+Both give the same output and share the same Chrome profile, so switching doesn't bring back bot checks you've already solved. They also run the same code inside the page (`shared/extract.js` and `vendor/defuddle.js`).
+
+## Using it
 
 It's most useful in agents with no web search of their own, which is most local-model setups. Where the agent has a built-in search tool (Claude Code does), the agent will usually use that instead, and this skill is still there for pages that block plain fetching, or when you ask for it.
 
