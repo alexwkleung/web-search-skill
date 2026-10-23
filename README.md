@@ -40,8 +40,12 @@ The agent runs `web.sh`, which picks one for it:
 To always use one, set `WEB_SEARCH_RUNTIME` in the environment your agent runs in:
 
 ```bash
-export WEB_SEARCH_RUNTIME=python   # or node
+export WEB_SEARCH_RUNTIME=python   # or node, in ~/.zshrc or ~/.bashrc
+
+WEB_SEARCH_RUNTIME=python claude   # or for one session (pi, opencode, ...)
 ```
+
+Restart the agent after changing it. If your agent isn't started from a terminal (a desktop app or IDE extension), set it in the agent's own settings instead, for example `env` in Claude Code's `settings.json`.
 
 Both give the same output and share the same Chrome profile, so switching doesn't bring back bot checks you've already solved. They also run the same code inside the page (`shared/extract.js` and `vendor/defuddle.js`).
 
