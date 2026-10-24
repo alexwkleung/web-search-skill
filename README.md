@@ -7,7 +7,7 @@ A web search and page-reading skill for coding agents. It drives a real Chrome o
 ./web.sh read https://vitest.dev/guide/mocking
 ```
 
-Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle), which runs inside the page. Its browser bundle is vendored in `vendor/` (MIT, see `vendor/defuddle.LICENSE`). To update it, copy `dist/index.full.js` from a newer `defuddle` package over `vendor/defuddle.js`.
+Searches go through Brave, which links results directly where Google and Bing route every link through a tracking redirect. The browser runs minimized on a profile of its own, which is what keeps bot checks rare. When a check does appear, the window comes up for you to solve it once, and the same search then finishes. `read` loads the page in that browser and turns it into markdown with [defuddle](https://github.com/kepano/defuddle), which runs inside the page. Its browser bundle is vendored in `vendor/` (see [Updating defuddle](#updating-defuddle)).
 
 macOS first. Linux should work, but it's untested, and the Chrome window is visible there. Windows isn't supported yet.
 
@@ -54,6 +54,16 @@ Both give the same output and share the same Chrome profile, so switching doesn'
 It's most useful in agents with no web search of their own, which is most local-model setups. Where the agent has a built-in search tool (Claude Code does), the agent will usually use that instead, and this skill is still there for pages that block plain fetching, or when you ask for it.
 
 See [`SKILL.md`](SKILL.md) for what the agent reads.
+
+## Updating defuddle
+
+`vendor/defuddle.js` is defuddle's browser bundle, currently 0.19.5 (MIT, see `vendor/defuddle.LICENSE`). To update it, download a newer version over it:
+
+```bash
+curl -fL https://unpkg.com/defuddle@<version>/dist/index.full.js -o vendor/defuddle.js
+```
+
+Then check that `read` still works. A major version could change defuddle's API, and then the small wrapper that calls it, in both `web.mjs` and `python/web.py`, has to change too.
 
 ## Status and bugs
 
